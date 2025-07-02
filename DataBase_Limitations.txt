@@ -1,0 +1,12 @@
+Promela Limitations (Unavailable features in Promela compared to C):
+
+1. No dynamic memory allocation (e.g., malloc(), free()).
+2. No pointers (no pointer variables, dereferencing, or arithmetic).
+3. No file I/O (e.g., fopen(), fread(), fwrite()).
+4. No floating-point types (only bit, byte, int are supported).
+5. Functions cannot return values.
+6. Recursion is not allowed.
+7. Structs are replaced by typedef.
+8. No multidimensional arrays (only 1D arrays; simulate higher dimensions manually).
+9. No nested or higher-order functions.
+10.Prototype process dosen't support input Parameters
