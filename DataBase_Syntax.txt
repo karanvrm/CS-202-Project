@@ -1,0 +1,54 @@
+Promela Syntax Overview
+
+🔹 Data Types
+C                Promela
+char, bool       bit, bool
+unsigned char    byte
+short            short
+int              int
+unsigned         unsigned
+Enum             mtype = {READY, RUNNING}
+Array            byte arr[5]; arr[0] = 10;
+
+🔹 Inline Functions
+inline square(x) { x = x * x; }
+init { int num = 5; square(num); printf("Square: %d\n", num); }
+
+🔹 Typedef
+typedef Node { int value; int next; }
+Node node_mem[2]; int head = 0;
+
+🔹 Conditional Statements
+if
+:: (x > 5) -> /* do something */
+:: else -> /* do something else */
+fi;
+
+🔹 Loops
+Do...od Loop:
+do
+:: (condition) -> /* body */
+:: else -> break;
+od;
+
+For Loop:
+byte i = 0;
+do
+:: (i < 5) -> printf("%d\n", i); i++;
+:: else -> break;
+od;
+
+🔹 Switch Case
+if
+:: option == 1 -> ...
+:: option == 2 -> ...
+:: else -> ...
+fi;
+
+🔹 Break
+:: (i >= 5) -> break;
+
+🔹 Continue Approximation
+:: (i == 2) -> i++; printf("Skipping i = 2\n");
+
+
