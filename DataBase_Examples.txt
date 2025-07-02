@@ -1,0 +1,185 @@
+Example 1: Function Calls
+
+C Code:
+#include <stdio.h> 
+void proc1() { printf("Process 1 running\n"); } 
+void proc2() { printf("Process 2 running\n"); } 
+int main() { proc1(); proc2(); return 0; } 
+
+Promela Code:
+proctype proc1() { printf("Process 1 running\n"); } 
+proctype proc2() { printf("Process 2 running\n"); } 
+init { run proc1(); run proc2(); } 
+
+######################################
+
+Example 2: If-Else
+
+C Code:
+#include <stdio.h> 
+int x = 10; 
+void check() { 
+    if (x > 5) printf("x is greater than 5\n"); 
+    else printf("x is 5 or less\n"); 
+} 
+int main() { check(); return 0; } 
+
+Promela Code:
+int x = 10; 
+proctype check() { 
+    if 
+    :: (x > 5) -> printf("x is greater than 5\n") 
+    :: (x <= 5) -> printf("x is 5 or less\n") 
+    fi; 
+} 
+init { run check(); } 
+
+######################################
+
+Example 3: Loop
+
+C Code:
+#include <stdio.h> 
+void loop_example() { 
+    for (int i = 0; i < 5; i++) { printf("i: %d\n", i); } 
+} 
+int main() { loop_example(); return 0; } 
+
+Promela Code:
+int i = 0; 
+proctype loop_example() { 
+    do 
+    :: (i < 5) -> printf("i: %d\n", i); i = i + 1; 
+    :: (i >= 5) -> break; 
+    od; 
+} 
+init { run loop_example(); } 
+
+######################################
+
+Example 4: Function with Parameters
+
+C Code:
+#include <stdio.h> 
+int balance = 5000; 
+void deposit(int amount) { 
+    balance = balance + amount; 
+    printf("Updated Balance : %d\n", balance); 
+} 
+int main() { deposit(1000); deposit(1000); return 0; } 
+
+Promela Code:
+int balance = 5000; 
+proctype deposit(int amount) { 
+    balance = balance + amount; 
+    printf("Updated Balance: %d \n", balance); 
+} 
+init { run deposit(1000); run deposit(1000); } 
+
+######################################
+
+Example 5: Array Initialization and Printing
+
+C Code:
+#include <stdio.h> 
+int arr[5]; 
+void initialize() { 
+    arr[0] = 10; arr[1] = 20; arr[2] = 30; arr[3] = 40; arr[4] = 50; 
+} 
+void print_array() { 
+    for (int i = 0; i < 5; i++) { printf("arr[%d] = %d\n", i, arr[i]); } 
+} 
+int main() { initialize(); print_array(); return 0; } 
+
+Promela Code:
+int arr[5]; 
+proctype initialize() { 
+    arr[0] = 10; arr[1] = 20; arr[2] = 30; arr[3] = 40; arr[4] = 50; 
+} 
+proctype print_array() { 
+    int i = 0; 
+    do 
+    :: (i < 5) -> printf("arr[%d] = %d\n", i, arr[i]); i = i + 1; 
+    :: (i >= 5) -> break; 
+    od; 
+} 
+init { run initialize(); run print_array(); } 
+
+######################################
+
+Example 6: Switch-Case
+
+C Code:
+#include <stdio.h> 
+void switch_case(int option) { 
+    switch (option) { 
+         case 1: printf("Case 1: Option is 1\n"); break; 
+         case 2: printf("Case 2: Option is 2\n"); break; 
+         case 3: printf("Case 3: Option is 3\n"); break; 
+         default: printf("Default Case: Option is not 1, 2, or 3\n"); break; 
+    } 
+} 
+int main() { int option = 2; switch_case(option); return 0; } 
+
+Promela Code:
+int option = 2; 
+proctype switch_case() { 
+    if 
+    :: option == 1 -> printf("Case 1: Option is 1\n"); 
+    :: option == 2 -> printf("Case 2: Option is 2\n"); 
+    :: option == 3 -> printf("Case 3: Option is 3\n"); 
+    :: else -> printf("Default Case: Option is not 1, 2, or 3\n"); 
+    fi; 
+} 
+init { run switch_case(); } 
+
+######################################
+
+Example 7: Break Statement
+
+C Code:
+#include <iostream> 
+using namespace std; 
+void break_example() { 
+    for (int i = 0; i < 10; i++) { 
+         if (i >= 5) { cout << "Breaking at i = " << i << endl; break; } 
+         cout << "i = " << i << endl; 
+    } 
+} 
+int main() { break_example(); return 0; } 
+
+Promela Code:
+int i = 0; 
+proctype break_example() { 
+    do 
+    :: (i >= 5) -> printf("Breaking at i = %d\n", i); break; 
+    :: printf("i = %d\n", i); i++; 
+    od; 
+} 
+init { run break_example(); } 
+
+######################################
+
+Example 8: Continue Statement
+
+C Code:
+#include <iostream> 
+using namespace std; 
+void continue_example() { 
+    for (int i = 0; i < 10; i++) { 
+         if (i == 2) { cout << "Skipping i = 2" << endl; continue; } 
+         cout << "i = " << i << endl; 
+    } 
+} 
+int main() { continue_example(); return 0; } 
+
+Promela Code:
+int i = 0; 
+proctype continue_example() { 
+    do 
+    :: (i == 2) -> i++; printf("Skipping i = 2\n"); 
+    :: (i >= 5) -> break; 
+    :: printf("i = %d\n", i); i++; 
+    od; 
+} 
+init { run continue_example(); } 
